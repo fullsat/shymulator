@@ -7,21 +7,23 @@
           :items="skillTargets"
           item-text="desc"
           item-value="key"
-          :value="value.target"
           @input="emitAppeal('target', $event)"
+          :value="value.target"
           dense
         >
         </v-select>
       </v-col>
+    </v-row>
 
+    <v-row dense>
       <v-col cols="2">
         <v-select
           label="属性"
           :items="skillAttrs"
           item-text="desc"
           item-value="key"
-          :value="value.attribute"
-          @input="emitAppeal('attribute', $event)"
+          @input="emitAppeal('attribute', 0, $event)"
+          :value="value.attribute[0]"
           dense
         >
         </v-select>
@@ -30,14 +32,41 @@
       <v-col cols="2">
         <v-text-field
           type="number"
-          @input="emitAppeal('power', $event)"
-          :value="value.power"
+          @input="emitAppeal('power', 0, $event)"
+          :value="value.power[0]"
           dense
         >
         </v-text-field>
       </v-col>
       倍アピール
     </v-row>
+
+    <v-row dense>
+      <v-col cols="2">
+        <v-select
+          label="属性"
+          :items="skillAttrs"
+          item-text="desc"
+          item-value="key"
+          @input="emitAppeal('attribute', 1, $event)"
+          :value="value.attribute[1]"
+          dense
+        >
+        </v-select>
+      </v-col>
+
+      <v-col cols="2">
+        <v-text-field
+          type="number"
+          @input="emitAppeal('power', 1, $event)"
+          :value="value.power[1]"
+          dense
+        >
+        </v-text-field>
+      </v-col>
+      倍アピール
+    </v-row>
+
   </div>
 </template>
 
@@ -48,11 +77,11 @@
         type: Object,
         default: function() {
           return {
-            skill: 'singleappealskill',
+            skill: 'doubleappealskill',
             position: 'le',
-            power: 0,
+            power: [0, 0],
             target: "",
-            attribute: "vo",
+            attribute: ["vo", "vi"],
           }
         }
       },
@@ -61,10 +90,10 @@
         default: function() { return "le"; }
       },
     },
-    data: function() {
+    data: function(){
       return {
         skillTargets: [
-          { key: 'single', desc: '' },
+          { key: 'double', desc: '' },
           { key: 'all', desc: '全観客' },
         ],
         skillAttrs: [
@@ -76,6 +105,10 @@
       }
     },
     methods: {
+      emitAppealWithIndex: function(k, i, v) {
+        this.value[k][i] = v
+        this.$emit('input', this.value);
+      },
       emitAppeal: function(k, v) {
         this.value[k] = v
         this.$emit('input', this.value);
@@ -85,6 +118,6 @@
       position: function(){
         this.emitAppeal('position', this.position)
       }
-    }
+    },
   }
 </script>

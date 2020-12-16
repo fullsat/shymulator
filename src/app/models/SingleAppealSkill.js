@@ -3,6 +3,7 @@ import AppealSkill from './AppealSkill'
 export default class SingleAppealSkill extends AppealSkill {
   constructor(options = {}){
     super(options);
+    this.skillname  = 'signelappealskill'
     this.target     = options['target']
     this.attribute  = options['attribute']
     this.power      = options['power']
@@ -18,6 +19,6 @@ export default class SingleAppealSkill extends AppealSkill {
     let pb = passiveBuff
     let ec = excellentCorr
     let se = (targetJudge == this.attribute) || ("ex" == this.attribute) ? 2 : 1
-    return (uv * ((100 + ab + pb ) / 100)) * this.power * se * ec 
+    return (uv * ((100 + ab + pb[attr] ) / 100)) * this.power * se * ec 
   }
 }

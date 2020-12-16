@@ -1,13 +1,13 @@
 <template>
   <v-slider
-    v-model="value"
+    :value=value
+    @input="$emit('input', $event)"
     track-color="grey"
     step="1"
     tick-size="5"
     :max="size"
     :tick-labels="labels"
     ticks="always"
-    @input="emitValue()"
   >
     <template v-slot:prepend>
       <v-btn icon>
@@ -26,7 +26,7 @@
 <script>
   export default {
     props: {
-      'initialValue': {
+      'value': {
         type: Number,
         default: function() { return 0 },
       },
@@ -41,21 +41,20 @@
     },
     data: function() {
       return {
-        value: this.initialValue,
+        sliderValue: this.value,
         labels: (this.disableLabels ? []: [...Array(this.size + 1).keys()]),
       }
     },
     methods: {
       decrement () {
-        if( 0 < this.value){ this.value-- }
-        this.emitValue()
+        if( 0 < this.value ){ 
+          this.$emit('input', this.value - 1)
+        }
       },
       increment () {
-        if( this.value < this.size ){ this.value++ }
-        this.emitValue()
-      },
-      emitValue() {
-        this.$emit('input', this.value);
+        if( this.value < this.size ){
+          this.$emit('input', this.value + 1)
+        }
       },
     },
   }

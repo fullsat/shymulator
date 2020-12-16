@@ -1,13 +1,10 @@
 <template>
   <v-container fluid>
     <v-radio-group
-      v-model="selectedValue"
-      @change="emitSelectedValue()"
+      :value="value"
+      @change="$emit('input', $event)"
       row
       >
-      <template v-slot:label>
-        <span>担当：</span>
-      </template>
       <v-radio label="Le" value="le"></v-radio>
       <v-radio label="Vo" value="vo"></v-radio>
       <v-radio label="Ce" value="ce"></v-radio>
@@ -19,15 +16,11 @@
 
 <script>
   export default {
-    data () {
-      return {
-        selectedValue: null,
+    props: {
+      value: {
+        type: String,
+        default: function() { return "le"; }
       }
     },
-    methods: {
-      emitSelectedValue: function() {
-        this.$emit('input', this.selectedValue)
-      },
-    }
   }
 </script>

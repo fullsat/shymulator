@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <v-row 
-        v-for="(idol , position) in baseValues"
+        v-for="(idol , position) in value"
         :key=position
         dense
         >
@@ -24,6 +24,7 @@
           cols="2">
           <v-text-field
             :label="bvk"
+            type="number"
             v-model=idol.baseValue[bvk]
             @input="emitBaseValues()"
             dense
@@ -48,11 +49,9 @@
 </template>
 
 <script>
-  import _ from 'lodash'
-
   export default {
     props: {
-      baseValues: {
+      value: {
         type: Object,
         default: function() {
           return {
@@ -77,12 +76,8 @@
       }
     },
     methods: {
-      outputlog: function() {
-        console.log(this.baseValues);
-      },
       emitBaseValues: function() {
-        let emitdata = _.cloneDeep(this.baseValues);
-        this.$emit('input', emitdata);
+        this.$emit('input', this.value);
       },
     }
 

@@ -16,10 +16,16 @@
             </p>
 
             <v-divider></v-divider>
-            <base-value-form v-model="baseValues" />
+            <base-value-form 
+              v-on:input="emitBaseValues()"
+              :value="baseValues"
+              />
 
             <v-divider></v-divider>
-            <ability-form v-model="ability" />
+            <ability-form 
+              :value="ability"
+              v-on:input="emitAbility()"
+              />
               {{ abilityBuff }}
 
           </v-card-text>
@@ -34,7 +40,10 @@
             アピールスキル効果入力
           </v-card-title>
           <v-card-text>
-            <appeal-skill-form v-model="appealSkills" />
+            <appeal-skill-form
+              v-on:input="emitAppealSkills($event)"
+              :value="appealSkills"
+              />
           </v-card-text>
         </v-card>
       </v-col>
@@ -47,7 +56,10 @@
             パッシブバフ補正
           </v-card-title>
           <v-card-text>
-            <passive-buff-form v-model="passiveBuff" />
+            <passive-buff-form
+              v-on:input="emitPassiveBuff()"
+              :value="passiveBuff"
+              />
 
             <v-divider></v-divider>
             <p>
@@ -104,22 +116,60 @@ export default {
     PassiveBuffForm,
     AppealValueView ,
   },
-
-  data: function (){
-    return {
-      baseValues: {
-        "le": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
-        "vo": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
-        "ce": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
-        "da": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
-        "vi": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
-      },
-      ability: new Ability(),
-      passiveBuff: {"vo": 0, "da": 0, "vi": 0},
-      appealSkills: {},
+  props: {
+    baseValues: {
+      type: Object,
+      default: function() {
+        return {
+          "le": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
+          "vo": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
+          "ce": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
+          "da": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
+          "vi": {"baseValue": {"vo":0,"da":0,"vi":0,"me":0,},"memory":0},
+        }
+      }
+    },
+    ability: {
+      type: Object,
+      default: function() {
+        return {
+          "allrounder1": 0,
+          "allrounder2": 0,
+          "slowstarter": 0,
+          "startdash": 0,
+          "popular": 0,
+          "quiet": 0,
+          "memHigh": 0,
+          "memLow": 0,
+          "melancholy1": 0,
+          "melancholy2": 0,
+          "attention": 0,
+          "modest": 0,
+          "perfectly": 0,
+          "mehealPlus": 0,
+          "mehealMinus": 0,
+          "bond": 0,
+        }
+      }
+    },
+    passiveBuff: {
+      type: Object,
+      default: function() {
+        return {"vo": 0, "da": 0, "vi": 0}
+      }
+    },
+    appealSkills: {
+      type: Object,
+      default: function() {
+        return {}
+      }
     }
   },
-
+  data: function (){
+    return {
+      abilityView: null,
+    }
+  },
   computed: {
     unitVocal: function() {
       let as = new AppealSkill({'position': 'vo'})
@@ -134,7 +184,8 @@ export default {
       return as.calcUnitValue(this.baseValues, 'vi')
     },
     abilityBuff: function() {
-      return this.ability.calcFixedBuff()
+      let av = this.abilityView
+      return av ? av.calcFixedBuff() : 0
     },
     vocalTotalBuff: function() {
       return this.passiveBuff['vo'] + this.abilityBuff
@@ -145,9 +196,21 @@ export default {
     visualTotalBuff: function() {
       return this.passiveBuff['vi'] + this.abilityBuff
     },
-
   },
   methods: {
+    emitAbility: function() {
+      this.abilityView = new Ability(this.ability)
+      this.$emit('emit-ability', this.ability)
+    },
+    emitBaseValues: function() {
+      this.$emit('emit-base-values', this.baseValues)
+    },
+    emitPassiveBuff: function() {
+      this.$emit('emit-passive-buff', this.passiveBuff)
+    },
+    emitAppealSkills: function(event) {
+      this.$emit('emit-appeal-skills', event)
+    },
   },
 };
 </script>

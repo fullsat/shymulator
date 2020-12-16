@@ -15,17 +15,17 @@
         <v-col
           v-if="v.abtype == 'buff'"
           cols="1">
-          {{ AbilityValues[k] }}
+          {{ value[k] }}
         </v-col>
 
         <v-col
           v-if="v.abtype == 'buff'"
           cols="9">
           <PMSlider
-            v-model="AbilityValues[k]"
+            :value="value[k]"
             :size=v.maxSize
             :disableLabels="v.maxSize > 15"
-            v-on:input="emitAbilityValue()"
+            v-on:input="emitAbilityValues(k, $event)"
             />
         </v-col>
       </v-row>
@@ -35,14 +35,13 @@
 
 <script>
   import PMSlider from '../molecules/PMSlider'
-  import Ability from '../../app/models/Ability';
 
   export default {
     components: {
       PMSlider,
     },
     props: {
-      abilityValues: {
+      value: {
         type: Object,
         default: function() {
           return {
@@ -68,7 +67,6 @@
     },
     data () {
       return {
-        AbilityValues: this.abilityValues,
         AbilityDescriptions: {
           "slowstarter":  { "abtype": "buff",   "maxSize": 5,  "text": "スロースターター",},
           "startdash":    { "abtype": "buff",   "maxSize": 5,  "text": "スタートダッシュ",},
@@ -88,12 +86,10 @@
       }
     },
     methods: {
-      emitAbilityValue: function() {
-        this.$emit('input', new Ability({'abilityValues': this.AbilityValues}))
-      },
-      log: function() {
-        console.log(this.AbilityValue)
-      },
+      emitAbilityValues(k, v) {
+        this.value[k] = v
+        this.$emit('input', this.value)
+      }
     },
   }
 </script>

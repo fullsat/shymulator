@@ -143,7 +143,12 @@
 </template>
 
 <script>
+  import Ability from '../../app/models/Ability'
   import AppealSkill from '../../app/models/AppealSkill'
+  import SingleAppealSkill from '../../app/models/SingleAppealSkill'
+  import DoubleAppealSkill from '../../app/models/DoubleAppealSkill'
+  import TrippleAppealSkill from '../../app/models/TrippleAppealSkill'
+  import MemoryAppeal from '../../app/models/MemoryAppeal'
 
   export default {
     props: {
@@ -193,7 +198,46 @@
           {'key':'good'     ,   'text': 'Good',       'rate': 1.2 },
           {'key':'normal'   ,   'text': 'Normal',     'rate': 1 },
           {'key':'bad'      ,   'text': 'Bad',        'rate': 0.5 },
-        ]
+        ],
+        appealValues: {
+          "vo": {
+            "appeal": {
+              "skill": 0,
+              "option1": 0,
+              "option2": 0,
+            },
+            "link": {
+              "skill": 0,
+              "option1": 0,
+              "option2": 0,
+            },
+          },
+          "da": {
+            "appeal": {
+              "skill": 0,
+              "option1": 0,
+              "option2": 0,
+            },
+            "link": {
+              "skill": 0,
+              "option1": 0,
+              "option2": 0,
+            },
+          },
+          "vi": {
+            "appeal": {
+              "skill": 0,
+              "option1": 0,
+              "option2": 0,
+            },
+            "link": {
+              "skill": 0,
+              "option1": 0,
+              "option2": 0,
+            },
+
+          }
+        }
       }
     },
     computed: {
@@ -209,18 +253,59 @@
         let as = new AppealSkill({'position': 'vi'})
         return as.calcUnitValue(this.baseValues, 'vi')
       },
+      vocalAppealSkill: function() {
+        if(!this.validateAppealSkills('appeal', 'skill')){ return 0; }
+
+        let judge = 'vo'
+        let exCor = this.selectedAppealType.rate
+        let skillset = this.appealSkills['appeal']['skill']
+        return this.buildAppealSkill(skillset).appeal(
+          judge,
+          this.baseValues,
+          this.passiveBuff,
+          this.buildAbility(this.ability).calcFixedBuff(),
+          exCor
+          )
+      }
     },
     methods: {
+      buildAppealSkill: function(skillset) {
+        let skillobj = null
+        switch( skillset.skill ) {
+          case 'singleappealskill':
+            skillobj = new SingleAppealSkill(skillset);
+            break;
+          case 'doubleappealskill':
+            skillobj = new DoubleAppealSkill(skillset);
+            break;
+          case 'trippleappealskill':
+            skillobj = new TrippleAppealSkill(skillset);
+            break;
+          case 'memoryappeal':
+            skillobj = new MemoryAppeal(skillset);
+            break;
+          case 'null':
+            skillobj = { appeal: function(){}}
+            break;
+          default:
+            skillobj = { appeal: function(){console.log("dead")}}
+        }
+        return  skillobj
+      },
+      buildAbility: function(ability) {
+        return new Ability(ability)
+      },
       vocalAppeal: function(appealOrLink, skillSlot) {
         if(!this.validateAppealSkills(appealOrLink, skillSlot)){ return 0; }
 
         let judge = 'vo'
         let exCor = this.selectedAppealType.rate
-        return this.appealSkills[appealOrLink][skillSlot].appeal(
+        let skillset = this.appealSkills[appealOrLink][skillSlot]
+        return this.buildAppealSkill(skillset).appeal(
           judge,
           this.baseValues,
-          this.passiveBuff['vo'],
-          this.ability.calcFixedBuff(),
+          this.passiveBuff,
+          this.buildAbility(this.ability).calcFixedBuff(),
           exCor
           )
       },
@@ -229,11 +314,12 @@
 
         let judge = 'da'
         let exCor = this.selectedAppealType.rate
-        return this.appealSkills[appealOrLink][skillSlot].appeal(
+        let skillset = this.appealSkills[appealOrLink][skillSlot]
+        return this.buildAppealSkill(skillset).appeal(
           judge,
           this.baseValues,
-          this.passiveBuff['da'],
-          this.ability.calcFixedBuff(),
+          this.passiveBuff,
+          this.buildAbility(this.ability).calcFixedBuff(),
           exCor
           )
       },
@@ -242,11 +328,12 @@
 
         let judge = 'vi'
         let exCor = this.selectedAppealType.rate
-        return this.appealSkills[appealOrLink][skillSlot].appeal(
+        let skillset = this.appealSkills[appealOrLink][skillSlot]
+        return this.buildAppealSkill(skillset).appeal(
           judge,
           this.baseValues,
-          this.passiveBuff['vi'],
-          this.ability.calcFixedBuff(),
+          this.passiveBuff,
+          this.buildAbility(this.ability).calcFixedBuff(),
           exCor
           )
       },
@@ -256,6 +343,11 @@
           this.appealSkills[appealOrLink][skillSlot] != null)
       },
     },
+    watch: {
+      appealSkills: function() {
+        this.appealSkills.vo.appeal.skill = this.vocalAppeal('appeal', 'skill') 
+      }
+    }
   }
 </script>
 
