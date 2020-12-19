@@ -22,7 +22,7 @@
           :items="skillAttrs"
           item-text="desc"
           item-value="key"
-          @input="emitAppeal('attribute', 0, $event)"
+          @input="emitAppealWithIndex('attribute', 0, $event)"
           :value="value.attribute[0]"
           dense
         >
@@ -32,7 +32,7 @@
       <v-col cols="2">
         <v-text-field
           type="number"
-          @input="emitAppeal('power', 0, $event)"
+          @input="emitAppealWithIndex('power', 0, $event)"
           :value="value.power[0]"
           dense
         >
@@ -48,7 +48,7 @@
           :items="skillAttrs"
           item-text="desc"
           item-value="key"
-          @input="emitAppeal('attribute', 1, $event)"
+          @input="emitAppealWithIndex('attribute', 1, $event)"
           :value="value.attribute[1]"
           dense
         >
@@ -58,7 +58,7 @@
       <v-col cols="2">
         <v-text-field
           type="number"
-          @input="emitAppeal('power', 1, $event)"
+          @input="emitAppealWithIndex('power', 1, $event)"
           :value="value.power[1]"
           dense
         >

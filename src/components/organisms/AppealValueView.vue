@@ -276,6 +276,7 @@
             skillobj = new SingleAppealSkill(skillset);
             break;
           case 'doubleappealskill':
+            console.log(skillset)
             skillobj = new DoubleAppealSkill(skillset);
             break;
           case 'trippleappealskill':

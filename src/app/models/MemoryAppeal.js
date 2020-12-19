@@ -1,6 +1,6 @@
 import AppealSkill from './AppealSkill'
 
-const MEMLVPOWER = [0.5, 0.8, 1.0, 1.5, 2.0]
+const MEMLVPOWER = [0.5, 0.5, 0.8, 1.0, 1.5, 2.0]
 
 export default class MemoryAppeal extends AppealSkill {
   constructor(options = {}){

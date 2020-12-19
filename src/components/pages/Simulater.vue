@@ -43,6 +43,7 @@
             <appeal-skill-form
               v-on:input="emitAppealSkills($event)"
               :value="appealSkills"
+              :baseValues="baseValues"
               />
           </v-card-text>
         </v-card>

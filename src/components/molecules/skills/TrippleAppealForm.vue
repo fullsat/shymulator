@@ -9,7 +9,6 @@
           item-value="key"
           @input="emitAppeal()"
           v-model="value.target"
-          :disabled="fixed"
           dense
         >
         </v-select>

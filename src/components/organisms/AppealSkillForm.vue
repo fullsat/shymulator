@@ -1,50 +1,28 @@
 <template>
   <div>
-    <v-tabs>
-      <v-tab @click="toAppealSkill"> スキル </v-tab>
-      <v-tab @click="toMemoryAppeal" > 思い出 </v-tab>
+    <v-container>
+      <position-select
+        v-model="value.position"
+        @input="emitAppealSkills('position', $event)"
+        />
 
-      <v-tab-item>
-        <v-container>
-          <position-select
-            v-model="value.position"
-            @input="emitAppealSkills('position', $event)"
-            />
-
-          <skill-ability-form
-            :position="value.position"
-            :value="value.appeal"
-            @input="emitAppealSkills('appeal', $event)"
-            label="スキル"
-            />
-          <skill-ability-form
-            :position="value.position"
-            :value="value.link"
-            @input="emitAppealSkills('link', $event)"
-            label="リンク"
-            />
-        </v-container>
-      </v-tab-item>
-
-      <v-tab-item>
-        <v-container>
-          <skill-ability-form
-            :position="value.position"
-            :value="value.appeal"
-            @input="emitAppealSkills('appeal', $event)"
-            label="スキル"
-            :isMemory="true"
-            />
-          <skill-ability-form
-            :position="value.position"
-            :value="value.link"
-            @input="emitAppealSkills('link', $event)"
-            label="リンク"
-            />
-        </v-container>
-      </v-tab-item>
-
-    </v-tabs>
+      <skill-ability-form
+        :position="value.position"
+        :value="value.appeal"
+        :isMemory=true
+        :baseValues="baseValues"
+        @input="emitAppealSkills('appeal', $event)"
+        label="スキル"
+        />
+      <skill-ability-form
+        :position="value.position"
+        :value="value.link"
+        :isMemory=false
+        :baseValues="baseValues"
+        @input="emitAppealSkills('link', $event)"
+        label="リンク"
+        />
+    </v-container>
   </div>
 </template>
 
@@ -76,25 +54,22 @@
           }
         },
       },
-    },
-    data () {
-      return {
-        isMemory: false,
-        prevPosition: null,
+      baseValues: {
+        type: Object,
       }
     },
     methods: {
-      toAppealSkill: function() {
-        this.value.position = this.prevPosition
-      },
-      toMemoryAppeal: function() {
-        this.prevPosition = this.value.position
-        this.value.position = 'ce'
-      },
       emitAppealSkills: function(slot, event) {
         this.value[slot] = event
-        return this.$emit('input', this.value)
-      },
+        this.$emit('input', this.value)
+      }
     },
+    watch: {
+      'value.appeal.skill.skill': function(){
+        if(this.value.appeal.skill.skill == 'memoryappeal') {
+          this.value.position = "ce"
+        }
+      },
+    }
   }
 </script>
