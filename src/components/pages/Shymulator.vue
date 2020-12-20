@@ -139,7 +139,10 @@ export default {
   },
   methods: {
     copySimulationData: function() {
-      Object.assign(this.simulationData[1], this.simulationData[0])
+      this.simulationData[1].ability = _.cloneDeep(this.simulationData[0].ability)
+      this.simulationData[1].baseValues = _.cloneDeep(this.simulationData[0].baseValues)
+      this.simulationData[1].appealSkills = _.cloneDeep(this.simulationData[0].appealSkills)
+      this.simulationData[1].passiveBuff = _.cloneDeep(this.simulationData[0].passiveBuff)
     }
   },
   watch: {

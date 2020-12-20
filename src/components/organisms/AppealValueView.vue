@@ -253,20 +253,6 @@
         let as = new AppealSkill({'position': 'vi'})
         return as.calcUnitValue(this.baseValues, 'vi')
       },
-      vocalAppealSkill: function() {
-        if(!this.validateAppealSkills('appeal', 'skill')){ return 0; }
-
-        let judge = 'vo'
-        let exCor = this.selectedAppealType.rate
-        let skillset = this.appealSkills['appeal']['skill']
-        return this.buildAppealSkill(skillset).appeal(
-          judge,
-          this.baseValues,
-          this.passiveBuff,
-          this.buildAbility(this.ability).calcFixedBuff(),
-          exCor
-          )
-      }
     },
     methods: {
       buildAppealSkill: function(skillset) {
@@ -339,16 +325,11 @@
           )
       },
       validateAppealSkills: function(appealOrLink, skillSlot) {
-        return (this.appealSkills != null && 
-          this.appealSkills[appealOrLink] != null &&
-          this.appealSkills[appealOrLink][skillSlot] != null)
+        return (this.appealSkills && 
+          this.appealSkills[appealOrLink] &&
+          this.appealSkills[appealOrLink][skillSlot])
       },
     },
-    watch: {
-      appealSkills: function() {
-        this.appealSkills.vo.appeal.skill = this.vocalAppeal('appeal', 'skill') 
-      }
-    }
   }
 </script>
 
