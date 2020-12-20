@@ -39,6 +39,20 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-row>
+        <v-col cols="12">
+            <v-btn
+              color="primary"
+              max-width=100%
+              width=100%
+              @click="copySimulationData"
+              >
+              値をコピーする
+              <v-icon>mdi-arrow-right-bold</v-icon>
+
+            </v-btn>
+        </v-col>
+      </v-row>
 
       <v-row>
         <v-col cols="12">
@@ -122,6 +136,11 @@ export default {
   },
   created: function() {
     this.simulationData = _.cloneDeep(this.loadedSimulationData)
+  },
+  methods: {
+    copySimulationData: function() {
+      Object.assign(this.simulationData[1], this.simulationData[0])
+    }
   },
   watch: {
     loadedSimulationData: function(){
