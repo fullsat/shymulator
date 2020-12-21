@@ -35,26 +35,34 @@
             <v-divider></v-divider>
             <p></p>
             <p>スキル：{{ vocalAppeal('appeal', 'skill') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加1：{{ vocalAppeal('appeal', 'option1') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加2：{{ vocalAppeal('appeal', 'option2') }}</p>
-
             <v-divider></v-divider>
+            <p></p>
+            <p>小計：{{ vocalAppeal('appeal', 'skill') +  vocalAppeal('appeal', 'option1') + vocalAppeal('appeal', 'option2')  }}</p>
+            <v-divider></v-divider>
+
             <p></p>
             <p>リンク：{{ vocalAppeal('link', 'skill') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加1：{{ vocalAppeal('link', 'option1') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加2：{{ vocalAppeal('link', 'option2') }}</p>
+            <v-divider></v-divider>
+            <p></p>
+            <p>小計：{{ vocalAppeal('link', 'skill') +  vocalAppeal('link', 'option1') + vocalAppeal('link', 'option2')  }}</p>
+            <v-divider></v-divider>
+            <v-divider></v-divider>
+            <p></p>
+            <p>合計：{{ vocalAppeal('appeal', 'skill') +  
+                        vocalAppeal('appeal', 'option1') + 
+                        vocalAppeal('appeal', 'option2') +  
+                        vocalAppeal('link', 'skill') +  
+                        vocalAppeal('link', 'option1') + 
+                        vocalAppeal('link', 'option2')  }}</p>
+            <v-divider></v-divider>
 
           </v-card-text>
         </v-card>
@@ -71,30 +79,38 @@
 
             <p></p>
             <p>基礎：{{ danceBase }}</p>
+
             <v-divider></v-divider>
             <p></p>
             <p>スキル：{{ danceAppeal('appeal', 'skill') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加1：{{ danceAppeal('appeal', 'option1') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加2：{{ danceAppeal('appeal', 'option2') }}</p>
-
             <v-divider></v-divider>
+            <p></p>
+            <p>小計：{{ danceAppeal('appeal', 'skill') +  danceAppeal('appeal', 'option1') + danceAppeal('appeal', 'option2')  }}</p>
+            <v-divider></v-divider>
+
             <p></p>
             <p>リンク：{{ danceAppeal('link', 'skill') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加1：{{ danceAppeal('link', 'option1') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加2：{{ danceAppeal('link', 'option2') }}</p>
-
+            <v-divider></v-divider>
+            <p></p>
+            <p>小計：{{ danceAppeal('link', 'skill') +  danceAppeal('link', 'option1') + danceAppeal('link', 'option2')  }}</p>
+            <v-divider></v-divider>
+            <v-divider></v-divider>
+            <p></p>
+            <p>合計：{{ danceAppeal('appeal', 'skill') +  
+                        danceAppeal('appeal', 'option1') + 
+                        danceAppeal('appeal', 'option2') +  
+                        danceAppeal('link', 'skill') +  
+                        danceAppeal('link', 'option1') + 
+                        danceAppeal('link', 'option2')  }}</p>
+            <v-divider></v-divider>
 
           </v-card-text>
         </v-card>
@@ -111,29 +127,38 @@
 
             <p></p>
             <p>基礎： {{ visualBase }}</p>
+
             <v-divider></v-divider>
             <p></p>
             <p>スキル：{{ visualAppeal('appeal', 'skill') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加1：{{ visualAppeal('appeal', 'option1') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加2：{{ visualAppeal('appeal', 'option2') }}</p>
-
             <v-divider></v-divider>
+            <p></p>
+            <p>小計：{{ visualAppeal('appeal', 'skill') +  visualAppeal('appeal', 'option1') + visualAppeal('appeal', 'option2')  }}</p>
+            <v-divider></v-divider>
+
             <p></p>
             <p>リンク：{{ visualAppeal('link', 'skill') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加1：{{ visualAppeal('link', 'option1') }}</p>
-
-            <v-divider></v-divider>
             <p></p>
             <p>追加2：{{ visualAppeal('link', 'option2') }}</p>
+            <v-divider></v-divider>
+            <p></p>
+            <p>小計：{{ visualAppeal('link', 'skill') +  visualAppeal('link', 'option1') + visualAppeal('link', 'option2')  }}</p>
+            <v-divider></v-divider>
+            <v-divider></v-divider>
+            <p></p>
+            <p>合計：{{ visualAppeal('appeal', 'skill') +  
+                        visualAppeal('appeal', 'option1') + 
+                        visualAppeal('appeal', 'option2') +  
+                        visualAppeal('link', 'skill') +  
+                        visualAppeal('link', 'option1') + 
+                        visualAppeal('link', 'option2')  }}</p>
+            <v-divider></v-divider>
 
           </v-card-text>
         </v-card>
@@ -243,15 +268,18 @@
     computed: {
       vocalBase: function() {
         let as = new AppealSkill({'position': 'vo'})
-        return as.calcUnitValue(this.baseValues, 'vo')
+        let apv = as.calcUnitValue(this.baseValues, 'vo')
+        return Math.floor(apv)
       },
       danceBase: function() {
         let as = new AppealSkill({'position': 'da'})
-        return as.calcUnitValue(this.baseValues, 'da')
+        let apv = as.calcUnitValue(this.baseValues, 'da')
+        return Math.floor(apv)
       },
       visualBase: function() {
         let as = new AppealSkill({'position': 'vi'})
-        return as.calcUnitValue(this.baseValues, 'vi')
+        let apv = as.calcUnitValue(this.baseValues, 'vi')
+        return Math.floor(apv)
       },
     },
     methods: {
@@ -288,13 +316,15 @@
         let judge = 'vo'
         let exCor = this.selectedAppealType.rate
         let skillset = this.appealSkills[appealOrLink][skillSlot]
-        return this.buildAppealSkill(skillset).appeal(
+        let apv = this.buildAppealSkill(skillset).appeal(
           judge,
           this.baseValues,
           this.passiveBuff,
           this.buildAbility(this.ability).calcFixedBuff(),
           exCor
           )
+
+        return Math.floor(apv)
       },
       danceAppeal: function(appealOrLink, skillSlot) {
         if(!this.validateAppealSkills(appealOrLink, skillSlot)){ return 0; }
@@ -302,13 +332,14 @@
         let judge = 'da'
         let exCor = this.selectedAppealType.rate
         let skillset = this.appealSkills[appealOrLink][skillSlot]
-        return this.buildAppealSkill(skillset).appeal(
+        let apv = this.buildAppealSkill(skillset).appeal(
           judge,
           this.baseValues,
           this.passiveBuff,
           this.buildAbility(this.ability).calcFixedBuff(),
           exCor
           )
+        return Math.floor(apv)
       },
       visualAppeal: function(appealOrLink, skillSlot) {
         if(!this.validateAppealSkills(appealOrLink, skillSlot)){ return 0; }
@@ -316,18 +347,21 @@
         let judge = 'vi'
         let exCor = this.selectedAppealType.rate
         let skillset = this.appealSkills[appealOrLink][skillSlot]
-        return this.buildAppealSkill(skillset).appeal(
+        let apv = this.buildAppealSkill(skillset).appeal(
           judge,
           this.baseValues,
           this.passiveBuff,
           this.buildAbility(this.ability).calcFixedBuff(),
           exCor
           )
+        return Math.floor(apv)
       },
       validateAppealSkills: function(appealOrLink, skillSlot) {
         return (this.appealSkills && 
           this.appealSkills[appealOrLink] &&
-          this.appealSkills[appealOrLink][skillSlot])
+          this.appealSkills[appealOrLink][skillSlot] &&
+          this.appealSkills[appealOrLink][skillSlot]['skill'] != "null"
+        )
       },
     },
   }
