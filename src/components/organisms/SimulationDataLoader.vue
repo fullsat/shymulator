@@ -1,27 +1,54 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-text-field
-        label="比較名"
-        v-model="comparedName"
-        ></v-text-field>
+      <v-card>
+        <v-card-title>
+          データを保存する
+          <v-icon
+            @click="overlay = !overlay"
+            medium
+            >mdi-information</v-icon>
+          <v-dialog
+            v-model="overlay">
+            <v-card>
+              <v-card-title>保存に関して</v-card-title>
+              <v-card-text>
+                <p>比較名を入力し保存ボタンを押すと保存されます</p>
+                <p>データのクリアボタンを押すと保存データが削除されます</p>
+                <p>同じ名前で保存すると上書きされます</p>
+                <v-divider></v-divider>
+                <p>ブラウザ自身にデータを保存しています。</p>
+                <p>シミュレータ製作者にデータを覗き見ることはできません。</p>
+                <p>javascriptのlocalStorageを利用しています。</p>
+                <v-divider></v-divider>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+        </v-card-title>
 
-      <v-select
-        :items="savedData"
-        item-text="desc"
-        item-value="key"
-        @input="emitSimulationData($event)"
-        dense>
-      </v-select>
+        <v-card-text>
+          <v-text-field
+            label="比較名"
+            v-model="comparedName"
+            ></v-text-field>
 
-      <v-btn
-        @click="saveSimulationData"
-        color="primary">比較したデータを保存する</v-btn>
+          <v-select
+            :items="savedData"
+            item-text="desc"
+            item-value="key"
+            @input="emitSimulationData($event)"
+            dense>
+          </v-select>
 
-      <v-btn
-        @click="removeSimulationData"
-        color="warning">データをクリアする</v-btn>
+          <v-btn
+            @click="saveSimulationData"
+            color="primary">比較したデータを保存する</v-btn>
 
+          <v-btn
+            @click="removeSimulationData"
+            color="warning">データをクリアする</v-btn>
+        </v-card-text>
+      </v-card>
     </v-col>
   </v-row>
 </template>
@@ -47,6 +74,7 @@
         loadedData: null,
         selectedUnitKey: null,
         comparedName: "",
+        overlay: false,
       }
     },
     methods: {

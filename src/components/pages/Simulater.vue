@@ -5,6 +5,19 @@
         <v-card>
           <v-card-title>
             基礎能力値入力
+            <v-icon
+              @click="openHelp('appealSkills')"
+              medium
+              >mdi-information</v-icon>
+            <v-dialog
+              v-model="overlay['appealSkills']">
+              <v-card>
+                <v-card-title>下の画像の画面の値を入力します</v-card-title>
+                <v-card-text>
+                  <img width="100%" src="../../assets/desc1.png"/>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </v-card-title>
           <v-card-text>
             <p>
@@ -38,6 +51,22 @@
         <v-card>
           <v-card-title>
             アピールスキル効果入力
+            <v-icon
+              @click="openHelp('baseValues')"
+              medium
+              >mdi-information</v-icon>
+            <v-dialog
+              v-model="overlay['baseValues']">
+              <v-card>
+                <v-card-title>スキルの入力に関して</v-card-title>
+                <v-card-text>
+                  <p>追撃の部分も記載してますが、vo4倍、vo2倍をそれぞれ入力するよりはvo6倍と考えて入力した方が入力効率は良いです</p>
+                  <p>現在注目度によって倍率が変わるようなスキルには対応していません</p>
+                  <p>結局最大効率で撃つと思うので、最大の倍率を入力しておけばいいと思います。</p>
+                  <p>それか普通に0.5とか書いておけば最小の値とかもわかるのでその辺は調整してください。</p>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </v-card-title>
           <v-card-text>
             <appeal-skill-form
@@ -81,7 +110,31 @@
       <v-col cols="12">
         <v-card>
           <v-card-title>
-            アピールスキル効果入力
+            アピール値の結果
+            <v-icon
+              @click="openHelp('result')"
+              medium
+              >mdi-information</v-icon>
+            <v-dialog
+              v-model="overlay['result']">
+              <v-card>
+                <v-card-title>結果に関して</v-card-title>
+                <v-card-text>
+                  <p>基礎の値は、バフや相性など最終的な値を計算するための掛け算の元となる値になります</p>
+                  <p>スキル所持者の基礎能力 * 2 + それ以外のメンバーの基礎能力 *0.5 * 4人分で計算されます</p>
+                  <v-divider></v-divider>
+                  <p>結果は独自の調査結果に基づくものです</p>
+                  <p>正確な計算方法が公開されているわけでもないので間違ってたらすみません</p>
+                  <p>計算結果に関してはおおよその目安と考えてください</p>
+                  <p>切り捨て切り上げなど細かな点は考慮してません</p>
+                  <p>アビリティのターンによってバフ値が変わる部分はほとんど考慮していません</p>
+                  <p>ネットにあるだろう情報もあんま調べてません</p>
+                  <p>結果によって生じた不都合の責任は持ちかねます</p>
+                  <p>例えば、この計算結果を信じてはづきさんを使ったけど効果なかった、はづきさんのアイテム買うから補償しろなどは受け付けません</p>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+
           </v-card-title>
           <v-card-text>
             <appeal-value-view
@@ -169,6 +222,11 @@ export default {
   data: function (){
     return {
       abilityView: null,
+      overlay: {
+        baseValues: false,
+        appealSkills: false,
+        result: false,
+      }
     }
   },
   computed: {
@@ -199,6 +257,12 @@ export default {
     },
   },
   methods: {
+    openHelp(target){
+      this.overlay[target] = true
+    },
+    log(){
+      console.log("hoge");
+    },
     emitAbility: function() {
       this.abilityView = new Ability(this.ability)
       this.$emit('emit-ability', this.ability)
